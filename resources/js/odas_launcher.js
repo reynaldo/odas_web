@@ -3,6 +3,7 @@
  */
 
 const dialog = require('electron').remote.dialog
+const fs = require('fs')
 
 const core_path_field = document.getElementById('odas-core-path')
 const config_path_field = document.getElementById('odas-config-path')
@@ -81,6 +82,30 @@ const launchOdas = function() {
       title:'Error',
       message:'Config file path not set.',
       detail:'Please set ODAS configuration file path before launching ODAS.'
+    })
+
+    return
+  }
+
+  if (!fs.existsSync(odas_core_path)) {
+    dialog.showMessageBox({
+        type:'info',
+        buttons:['OK'],
+        title:'Error',
+        message:'Unable to launch main program',
+        detail:'File '+odas_core_path+' does not exist'
+    })
+
+    return
+  }
+
+  if (!fs.existsSync(odas_config_path)) {
+    dialog.showMessageBox({
+        type:'info',
+        buttons:['OK'],
+        title:'Error',
+        message:'Unable to launch main program',
+        detail:'File '+odas_config_path+' does not exist'
     })
 
     return
